@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인공지능 학교 비서</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+        .card { border: 1px solid #ddd; padding: 15px; margin-bottom: 20px; border-radius: 8px; }
+        h1 { color: #2c3e50; }
+        ul { padding-left: 20px; }
+    </style>
+</head>
+<body>
+    <h1>🤖 {{ school_name }} AI 비서</h1>
+    
+    <div class="card">
+        <h3>🍱 오늘의 급식</h3>
+        <ul>
+            {% for item in meals %}
+            <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="card">
+        <h3>📅 오늘의 시간표</h3>
+        <ul>
+            {% for subject in timetable %}
+            <li>{{ subject }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
