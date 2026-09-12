@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ school_name }} · AI 스케줄 비서</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="min-h-screen flex items-center justify-center px-4">
+
+<div class="aurora-bg">
+  <span class="blob-violet"></span>
+  <span class="blob-blue"></span>
+  <span class="blob-plum"></span>
+</div>
+
+<div class="w-full max-w-md">
+  <div class="text-center mb-8">
+    <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl glass-card mb-4">
+      <span class="text-2xl">✨</span>
+    </div>
+    <h1 class="text-2xl font-bold tracking-tight">{{ school_name }}</h1>
+    <p class="text-sm text-white/60 mt-1">AI 스케줄 관리 비서</p>
+  </div>
+
+  <div class="glass-card rounded-2xl p-8">
+    <!-- 탭 -->
+    <div class="flex rounded-full bg-white/5 border border-white/10 p-1 mb-6 text-sm font-medium">
+      <button id="tabLogin" class="flex-1 py-2 rounded-full transition">로그인</button>
+      <button id="tabRegister" class="flex-1 py-2 rounded-full transition text-white/50">회원가입</button>
+    </div>
+
+    <p id="formError" class="hidden text-sm text-red-300 bg-red-500/10 border border-red-400/30 rounded-xl px-4 py-2 mb-4"></p>
+
+    <!-- 로그인 폼 -->
+    <form id="loginForm" class="space-y-4">
+      <div>
+        <label class="text-xs text-white/60 mb-1 block">아이디</label>
+        <input type="text" name="username" required class="glass-input w-full rounded-xl px-4 py-3 text-sm" placeholder="학교 아이디">
+      </div>
+      <div>
+        <label class="text-xs text-white/60 mb-1 block">비밀번호</label>
+        <input type="password" name="password" required class="glass-input w-full rounded-xl px-4 py-3 text-sm" placeholder="••••••••">
+      </div>
+      <button type="submit" class="btn-pill w-full py-3 mt-2 text-sm">로그인</button>
+    </form>
+
+    <!-- 회원가입 폼 -->
+    <form id="registerForm" class="space-y-4 hidden">
+      <div>
+        <label class="text-xs text-white/60 mb-1 block">이름</label>
+        <input type="text" name="name" required class="glass-input w-full rounded-xl px-4 py-3 text-sm" placeholder="홍길동">
+      </div>
+      <div class="grid grid-cols-3 gap-3">
+        <div>
+          <label class="text-xs text-white/60 mb-1 block">학년</label>
+          <input type="number" name="grade" min="1" max="3" required class="glass-input w-full rounded-xl px-3 py-3 text-sm" placeholder="2">
+        </div>
+        <div>
+          <label class="text-xs text-white/60 mb-1 block">반</label>
+          <input type="number" name="class_no" min="1" required class="glass-input w-full rounded-xl px-3 py-3 text-sm" placeholder="3">
+        </div>
+        <div>
+          <label class="text-xs text-white/60 mb-1 block">번호</label>
+          <input type="number" name="student_no" min="1" class="glass-input w-full rounded-xl px-3 py-3 text-sm" placeholder="12">
+        </div>
+      </div>
+      <div>
+        <label class="text-xs text-white/60 mb-1 block">아이디</label>
+        <input type="text" name="username" required class="glass-input w-full rounded-xl px-4 py-3 text-sm" placeholder="사용할 아이디">
+      </div>
+      <div>
+        <label class="text-xs text-white/60 mb-1 block">비밀번호</label>
+        <input type="password" name="password" required minlength="4" class="glass-input w-full rounded-xl px-4 py-3 text-sm" placeholder="4자 이상">
+      </div>
+      <button type="submit" class="btn-pill w-full py-3 mt-2 text-sm">가입하고 시작하기</button>
+    </form>
+  </div>
+
+  <p class="text-center text-xs text-white/40 mt-6">{{ school_name }} 학생 전용 서비스입니다</p>
+</div>
+
+<script>
+const tabLogin = document.getElementById('tabLogin');
+const tabRegister = document.getElementById('tabRegister');
+const loginForm = document.getElementById('loginForm');
+const registerForm = document.getElementById('registerForm');
+const formError = document.getElementById('formError');
+
+function activateTab(tab) {
+  formError.classList.add('hidden');
+  if (tab === 'login') {
+    tabLogin.classList.add('bg-white', 'text-slate-900');
+    tabRegister.classList.remove('bg-white', 'text-slate-900');
+    tabRegister.classList.add('text-white/50');
+    tabLogin.classList.remove('text-white/50');
+    loginForm.classList.remove('hidden');
+    registerForm.classList.add('hidden');
+  } else {
+    tabRegister.classList.add('bg-white', 'text-slate-900');
+    tabLogin.classList.remove('bg-white', 'text-slate-900');
+    tabLogin.classList.add('text-white/50');
+    tabRegister.classList.remove('text-white/50');
+    registerForm.classList.remove('hidden');
+    loginForm.classList.add('hidden');
+  }
+}
+tabLogin.addEventListener('click', () => activateTab('login'));
+tabRegister.addEventListener('click', () => activateTab('register'));
+activateTab('login');
+
+function showError(msg) {
+  formError.textContent = msg;
+  formError.classList.remove('hidden');
+}
+
+async function postJSON(url, data) {
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  });
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(body.error || '요청 처리 중 오류가 발생했습니다.');
+  return body;
+}
+
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fd = new FormData(loginForm);
+  try {
+    await postJSON('/api/login', { username: fd.get('username'), password: fd.get('password') });
+    window.location.href = '/';
+  } catch (err) {
+    showError(err.message);
+  }
+});
+
+registerForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fd = new FormData(registerForm);
+  try {
+    await postJSON('/api/register', {
+      name: fd.get('name'),
+      grade: fd.get('grade'),
+      class_no: fd.get('class_no'),
+      student_no: fd.get('student_no'),
+      username: fd.get('username'),
+      password: fd.get('password'),
+    });
+    window.location.href = '/';
+  } catch (err) {
+    showError(err.message);
+  }
+});
+</script>
+</body>
+</html>

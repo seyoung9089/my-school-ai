@@ -1,0 +1,198 @@
+:root {
+  --deep-plum: #3B0764;
+  --plum: #5B1847;
+  --violet: #7C3AED;
+  --blue: #3B82F6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  min-height: 100vh;
+}
+
+body {
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+    "Malgun Gothic", sans-serif;
+  color: #F5EEFF;
+  background: #180a24;
+  overflow-x: hidden;
+}
+
+/* ---------------- 오로라 배경 ---------------- */
+.aurora-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--deep-plum) 0%, #1c0f3d 45%, var(--plum) 100%);
+}
+
+.aurora-bg span {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.5;
+  animation: driftAurora 20s ease-in-out infinite alternate;
+}
+
+.aurora-bg span.blob-violet {
+  width: 55vw;
+  height: 55vw;
+  top: -18%;
+  left: -12%;
+  background: var(--violet);
+}
+
+.aurora-bg span.blob-blue {
+  width: 50vw;
+  height: 50vw;
+  bottom: -22%;
+  right: -14%;
+  background: var(--blue);
+  animation-delay: -10s;
+}
+
+.aurora-bg span.blob-plum {
+  width: 40vw;
+  height: 40vw;
+  top: 35%;
+  left: 40%;
+  background: var(--plum);
+  opacity: 0.35;
+  animation-delay: -5s;
+}
+
+@keyframes driftAurora {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(6%, 8%) scale(1.18); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-bg span { animation: none; }
+}
+
+/* ---------------- 글래스모피즘 카드 ---------------- */
+.glass-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.28);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #F5EEFF;
+}
+.glass-input::placeholder {
+  color: rgba(245, 238, 255, 0.45);
+}
+.glass-input:focus {
+  outline: none;
+  border-color: rgba(124, 58, 237, 0.8);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
+}
+
+/* ---------------- 버튼 ---------------- */
+.btn-pill {
+  background: #FFFFFF;
+  color: #0F172A;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+.btn-pill:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 26px rgba(124, 58, 237, 0.55), 0 0 14px rgba(59, 130, 246, 0.45);
+}
+.btn-pill:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-pill-outline {
+  background: transparent;
+  color: #F5EEFF;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 9999px;
+  transition: all 0.2s ease;
+}
+.btn-pill-outline:hover {
+  border-color: #fff;
+  transform: scale(1.03);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.btn-ghost-icon {
+  border-radius: 9999px;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.btn-ghost-icon:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: scale(1.08);
+}
+
+/* ---------------- 스크롤바 ---------------- */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 9999px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ---------------- 챗봇 ---------------- */
+.chat-bubble-user {
+  background: rgba(124, 58, 237, 0.35);
+  border: 1px solid rgba(124, 58, 237, 0.5);
+}
+.chat-bubble-ai {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.chat-panel {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.chat-panel.hidden-panel {
+  opacity: 0;
+  transform: translateY(16px) scale(0.98);
+  pointer-events: none;
+}
+
+/* ---------------- 기타 애니메이션 ---------------- */
+.fade-in { animation: fadeIn 0.25s ease; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+.todo-done {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.due-soon {
+  color: #FCA5A5;
+}
+
+.dot-typing {
+  display: inline-flex;
+  gap: 4px;
+}
+.dot-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgba(245, 238, 255, 0.7);
+  animation: typingBounce 1.2s infinite ease-in-out;
+}
+.dot-typing span:nth-child(2) { animation-delay: 0.15s; }
+.dot-typing span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}

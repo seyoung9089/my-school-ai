@@ -1,0 +1,9 @@
+Flask==3.0.3
+python-dotenv==1.0.1
+google-genai==1.15.0
+Werkzeug==3.0.3
+
+# Google Drive/Docs 연동(선택 기능)에 필요합니다.
+# 이 기능을 쓰지 않을 거면 아래 두 줄은 지워도 됩니다.
+google-auth-oauthlib==1.2.1
+google-api-python-client==2.140.0

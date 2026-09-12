@@ -1,0 +1,18 @@
+# 환경 변수 (API 키 포함 - 절대 깃허브에 올리면 안됨)
+.env
+
+# DB 파일
+*.db
+*.sqlite3
+
+# 파이썬
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# OS / 에디터
+.DS_Store
+.vscode/
+.idea/
